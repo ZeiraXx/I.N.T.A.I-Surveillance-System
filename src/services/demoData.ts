@@ -18,11 +18,11 @@ class DemoDataGenerator {
       feeds: {
         live: {
           type: 'youtube',
-          url: 'https://www.youtube.com/embed/g6opOw90Ke8?autoplay=1&loop=1&playlist=g6opOw90Ke8&mute=1&controls=0&modestbranding=1&disablekb=1&iv_load_policy=3&rel=0&fs=0&playsinline=1&enablejsapi=1',
+          url: 'https://www.youtube.com/embed/G8PIodyHClU?autoplay=1&loop=1&playlist=G8PIodyHClU&mute=1&controls=0&modestbranding=1&disablekb=1&iv_load_policy=3&rel=0&fs=0&playsinline=1&enablejsapi=1',
         },
         manipulated: {
           type: 'youtube',
-          url: 'https://www.youtube.com/embed/whaBm4il6Hs?autoplay=1&loop=1&playlist=whaBm4il6Hs&mute=1&controls=0&modestbranding=1&disablekb=1&iv_load_policy=3&rel=0&fs=0&playsinline=1&enablejsapi=1',
+          url: 'https://www.youtube.com/embed/G8PIodyHClU?autoplay=1&loop=1&playlist=G8PIodyHClU&mute=1&controls=0&modestbranding=1&disablekb=1&iv_load_policy=3&rel=0&fs=0&playsinline=1&enablejsapi=1',
         },
       },
       target: {
