@@ -22,7 +22,7 @@ class DemoDataGenerator {
         },
         manipulated: {
           type: 'youtube',
-          url: 'https://www.youtube.com/embed/G8PIodyHClU?autoplay=1&loop=1&playlist=G8PIodyHClU&mute=1&controls=0&modestbranding=1&disablekb=1&iv_load_policy=3&rel=0&fs=0&playsinline=1&enablejsapi=1',
+          url: 'https://www.youtube.com/embed/PMCpqU7_Q5U?autoplay=1&loop=1&playlist=G8PIodyHClU&mute=1&controls=0&modestbranding=1&disablekb=1&iv_load_policy=3&rel=0&fs=0&playsinline=1&enablejsapi=1',
         },
       },
       target: {
