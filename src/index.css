@@ -157,3 +157,15 @@
   @apply font-sans !important;
 }
 
+/* Hide YouTube embed UI elements */
+iframe[src*="youtube"] {
+  border: none !important;
+}
+
+/* Ensure YouTube iframe covers entire area and hides UI */
+iframe[src*="youtube"] + *,
+iframe[src*="youtube"]::before,
+iframe[src*="youtube"]::after {
+  display: none !important;
+}
+

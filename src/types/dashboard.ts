@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 // Zod schemas for validation
 export const FeedSchema = z.object({
-  type: z.literal('mp4'),
+  type: z.enum(['mp4', 'youtube']),
   url: z.string(),
 });
 
