@@ -122,6 +122,7 @@ export function VideoPlayer({ url, onError }: VideoPlayerProps) {
         autoPlay
         playsInline
         loop
+        preload="auto"
       />
       )}
       {needsInteraction && !isStream && (

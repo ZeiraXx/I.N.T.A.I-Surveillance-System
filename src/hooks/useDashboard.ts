@@ -13,17 +13,17 @@ export function useDashboard() {
       const startTime = Date.now();
       const interval = setInterval(() => {
         setDemoElapsed((Date.now() - startTime) / 1000);
-      }, 100);
+      }, 500); // Update every 500ms instead of 100ms
       return () => clearInterval(interval);
     }
   }, [dataMode]);
   
-  // Demo mode: poll every 100ms for first 9.2 seconds, then every 1s for real-time timestamp/latency
+  // Demo mode: poll every 500ms for first 2 seconds, then every 2s for timestamp/latency (reduced from 100ms to improve video performance)
   // Mock mode: refetch every 800ms for live feel
   // API mode: refetch every 2 seconds
   let refetchInterval: number | false;
   if (dataMode === 'demo') {
-    refetchInterval = demoElapsed >= 9.2 ? 1000 : 100; // Fast for 9.2s, then every 1s for real-time updates
+    refetchInterval = demoElapsed >= 2 ? 2000 : 500; // Reduced frequency: 500ms for first 2s, then 2s for updates
   } else if (dataMode === 'mock') {
     refetchInterval = 800;
   } else {
