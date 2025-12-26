@@ -39,3 +39,7 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 
+# Large video files (over 100MB)
+public/phase4_original_12.mp4
+public/phase4_removed_11.mp4
+

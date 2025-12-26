@@ -1,36 +1,31 @@
 # INTAI Surveillance Dashboard
 
-A dark-themed, hacking-tool styled web UI for real-time CCTV surveillance and target tracking. Features live and manipulated video feeds, target identification with confidence scoring, and comprehensive camera metadata display.
-
-![Dashboard Preview](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
-![React](https://img.shields.io/badge/React-18.2-blue)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)
-![Tailwind](https://img.shields.io/badge/Tailwind-3.4-38bdf8)
+A professional surveillance dashboard interface for real-time CCTV monitoring and target tracking. Features dual video feed display, target identification with confidence scoring, and comprehensive camera metadata visualization.
 
 ## Features
 
-- 🎯 **Dual Feed Display**: Side-by-side live and manipulated video streams
-- 👤 **Target Tracking**: Real-time face detection with confidence scoring
-- 📊 **Camera Metadata**: Comprehensive device and connection information
-- 🎨 **HUD Theme**: Dark cyberpunk aesthetic with neon accents, scanlines, and grid overlays
-- 🔄 **Real-time Updates**: Smooth animations and live data refresh
-- 🔌 **API Ready**: Easy switch between mock data and real backend
-- 📦 **Type-Safe**: Full TypeScript with Zod validation
+- **Dual Feed Display**: Side-by-side live and manipulated video streams
+- **Target Tracking**: Real-time face detection with confidence scoring
+- **Camera Metadata**: Comprehensive device and connection information
+- **HUD Theme**: Dark professional interface with neon accents, scanlines, and grid overlays
+- **Real-time Updates**: Smooth animations and live data refresh
+- **Multiple Data Modes**: Support for demo, mock, and API modes
+- **Type-Safe**: Full TypeScript with Zod validation
 
 ## Tech Stack
 
-- **React 18.2** with TypeScript
-- **Vite** for blazing-fast development
-- **Tailwind CSS** for styling
-- **React Query** for data fetching and caching
-- **Zod** for runtime validation
-- **Native HTML5 Video** for MP4 playback
+- React 18.2 with TypeScript
+- Vite for fast development and builds
+- Tailwind CSS for styling
+- React Query for data fetching and caching
+- Zod for runtime validation
+- YouTube IFrame API for video embedding
 
 ## Quick Start
 
 ### Prerequisites
 
-- Node.js 18+ and npm/yarn/pnpm
+- Node.js 18+ and npm
 
 ### Installation
 
@@ -59,51 +54,32 @@ npm run preview
 Create a `.env` file in the project root:
 
 ```env
-# Data mode: "mock" (default) or "api"
-VITE_DATA_MODE=mock
+# Data mode: "demo" (YouTube videos), "mock" (synthetic data), or "api" (live backend)
+VITE_DATA_MODE=demo
 
 # API configuration (only used when VITE_DATA_MODE=api)
 VITE_API_BASE_URL=http://localhost:8080
 VITE_DASHBOARD_PATH=/api/dashboard
-
-# Mock MP4 URLs (optional, for testing with real videos)
-VITE_MOCK_LIVE_MP4_URL=https://example.com/live.mp4
-VITE_MOCK_MANIP_MP4_URL=https://example.com/manip.mp4
 ```
 
-## Test Backend (Included)
+## Data Modes
 
-A Python Flask backend is included with **live webcam support**. See `backend/` directory.
+### Demo Mode
 
-**Quick setup (uses your webcam):**
-```bash
-cd backend
-pip install -r requirements.txt
-python app.py
-```
+Demo mode uses YouTube video embeds for presentation purposes:
+- Client-side only, no backend required
+- YouTube videos with autoplay and loop
+- Connecting animation before video display
+- Static confidence at 93%
+- Dynamic timestamp and latency updates
 
-Then update your `.env`:
-```env
-VITE_DATA_MODE=api
-```
+### Mock Mode
 
-**Features:**
-- 📹 Live webcam streaming (MJPEG)
-- 📊 Real camera metadata extraction
-- 🎯 Dynamic detection simulation
-- 🔄 Easy switch between webcam and video file
-
-See `backend/README.md` for full documentation or `WEBCAM_SETUP.md` for webcam-specific guide.
-
-### Mock Mode (Default)
-
-In mock mode, the dashboard runs entirely in the browser with synthetic data:
+Mock mode runs entirely in the browser with synthetic data:
 - Updates every 800ms to simulate live tracking
 - Smooth bounding box animations
 - Fluctuating confidence scores
 - Occasional "offline" status to test error states
-
-**Note**: If `VITE_MOCK_LIVE_MP4_URL` and `VITE_MOCK_MANIP_MP4_URL` are not provided, video panels will display "NO SIGNAL" placeholders. The rest of the UI will work normally.
 
 ### API Mode
 
@@ -173,7 +149,7 @@ Your backend should return JSON matching this schema (see `src/types/dashboard.t
 
 ### Bounding Box Coordinates
 
-All bounding boxes use **normalized coordinates** (0.0 to 1.0):
+All bounding boxes use normalized coordinates (0.0 to 1.0):
 - `x`: horizontal position (0 = left, 1 = right)
 - `y`: vertical position (0 = top, 1 = bottom)
 - `w`: width (0 to 1)
@@ -185,35 +161,8 @@ Example: `{x: 0.5, y: 0.5, w: 0.1, h: 0.2}` = centered box, 10% width, 20% heigh
 
 If your backend returns different field names or structure:
 
-1. **Update Zod schema**: Edit `src/types/dashboard.ts` to match your API
-2. **Add mapping layer**: Modify `src/services/dashboardClient.ts` to transform your API response into `DashboardState`
-
-Example mapping:
-
-```typescript
-// In dashboardClient.ts
-async function fetchFromAPI(): Promise<DashboardState> {
-  const response = await fetch(url);
-  const rawData = await response.json();
-  
-  // Map your API format to DashboardState
-  const mapped: DashboardState = {
-    timestamp: rawData.ts,
-    feeds: {
-      live: { type: 'mp4', url: rawData.video_urls.main },
-      manipulated: { type: 'mp4', url: rawData.video_urls.processed },
-    },
-    target: {
-      portraitUrl: rawData.target.image,
-      confidence: rawData.target.match_score,
-      label: rawData.target.name,
-    },
-    // ... etc
-  };
-  
-  return DashboardStateSchema.parse(mapped);
-}
-```
+1. Update Zod schema: Edit `src/types/dashboard.ts` to match your API
+2. Add mapping layer: Modify `src/services/dashboardClient.ts` to transform your API response into `DashboardState`
 
 ## UI Controls
 
@@ -222,7 +171,8 @@ Located in the top-right corner:
 - **BBOX**: Toggle bounding boxes on/off
 - **TARGET**: Toggle target highlighting (red box for target, green for others)
 - **SCAN**: Toggle scanline overlay effect
-- **Mode Indicator**: Shows current data mode (MOCK or API)
+- **LAYOUT**: Toggle between side-by-side and stacked video layout
+- **Mode Indicator**: Shows current data mode (DEMO, MOCK, or API)
 
 ## Project Structure
 
@@ -231,7 +181,7 @@ src/
 ├── components/
 │   ├── DashboardPage.tsx      # Main layout and state management
 │   ├── FeedPanel.tsx           # Video feed container
-│   ├── VideoPlayer.tsx         # MP4 video player
+│   ├── VideoPlayer.tsx         # Video player (MP4 and YouTube)
 │   ├── OverlayBoxes.tsx        # Canvas-based bounding boxes
 │   ├── TargetPanel.tsx         # Target portrait + confidence
 │   ├── MetaPanel.tsx           # Camera metadata display
@@ -240,6 +190,7 @@ src/
 │   └── useDashboard.ts         # React Query hook
 ├── services/
 │   ├── dashboardClient.ts      # API abstraction layer
+│   ├── demoData.ts             # Demo mode data generator
 │   └── mockData.ts             # Mock data generator
 ├── types/
 │   └── dashboard.ts            # TypeScript types + Zod schemas
@@ -277,16 +228,29 @@ Change polling interval in `src/hooks/useDashboard.ts`:
 const refetchInterval = dataMode === 'mock' ? 800 : 2000; // milliseconds
 ```
 
+## Deployment
+
+### GitHub Pages
+
+This project is configured for automatic deployment to GitHub Pages:
+
+1. Push code to the `main` branch
+2. GitHub Actions will automatically build and deploy
+3. Site will be available at `https://<username>.github.io/<repo-name>/`
+
+The workflow is configured in `.github/workflows/deploy.yml`
+
 ## Troubleshooting
 
 ### Video Won't Play
 
-- **Check URL**: Ensure MP4 URLs are accessible and CORS-enabled
-- **Autoplay Blocked**: Click the "CLICK TO START" overlay
-- **Format**: Only MP4 is supported (H.264 codec recommended)
+- **Check URL**: Ensure video URLs are accessible and CORS-enabled
+- **Autoplay Blocked**: Click the "CLICK TO START" overlay if shown
+- **Format**: MP4 (H.264 codec) or YouTube embeds are supported
 
 ### "NO SIGNAL" Displayed
 
+- **Demo mode**: Verify YouTube video IDs are correct in `src/services/demoData.ts`
 - **Mock mode**: Set `VITE_MOCK_LIVE_MP4_URL` and `VITE_MOCK_MANIP_MP4_URL` in `.env`
 - **API mode**: Verify backend is returning valid `feeds.live.url` and `feeds.manipulated.url`
 
@@ -307,6 +271,7 @@ const refetchInterval = dataMode === 'mock' ? 800 : 2000; // milliseconds
 - Canvas-based overlays are memoized to prevent unnecessary re-renders
 - React Query caches responses and deduplicates requests
 - Video decoding happens in the browser (hardware-accelerated)
+- Optimized polling intervals for different data modes
 
 For best performance:
 - Use 1080p or lower resolution videos
@@ -327,9 +292,4 @@ MIT
 
 ## Contributing
 
-Feel free to submit issues and pull requests!
-
----
-
-**Built with ⚡ by INTAI Team**
-
+Feel free to submit issues and pull requests.
